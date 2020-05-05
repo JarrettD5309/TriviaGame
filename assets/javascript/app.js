@@ -5,7 +5,7 @@ var number = 30;
 var rightAnswers = 0;
 var wrongAnswers = 0;
 var timedOutAnswers = 0;
-var phaseCounter = 0;
+var phaseCounter = -1;
 
 //  Variable that will hold our interval ID when we execute the "run" function
 var intervalId;
@@ -30,10 +30,17 @@ var yankeesQuestions = [
         answers: ["Jim Abbott","Jimmy Key","Sterling Hitchcock","Scott Kamieniecki"],
         correctAnswer: "Jim Abbott",
         image: "assets/images/jim_abbott.jpg"
+    },
+    {
+        question: "How many World Series Championships have the Yankees won?",
+        answers: ["30","16","27","32"],
+        correctAnswer: "27",
+        image: "assets/images/27_champs.jpg"
     }
 ]
 
 function run(obj,index) {
+    number=30;
     $("#time-div").html("<h2>30</h2>");
     clearInterval(intervalId);
     intervalId = setInterval(function() {
@@ -63,6 +70,12 @@ function decrement(obj,index) {
     questionDiv.hide();
     buttonGroup.hide();
     timedOutAnswers++;
+    setTimeout(function() {
+        phaseCounter++;
+        addAnswers(yankeesQuestions,phaseCounter);
+        addQuestion(yankeesQuestions,phaseCounter);
+        run(yankeesQuestions,phaseCounter);
+    },3000);
     }
 }
 
@@ -77,6 +90,7 @@ function stop() {
 
 function addAnswers(obj, index) {
     buttonGroup.show();
+    answerImg.empty();
     buttonOne.text(obj[index].answers[0]);
     buttonTwo.text(obj[index].answers[1]);
     buttonThree.text(obj[index].answers[2]);
@@ -85,6 +99,8 @@ function addAnswers(obj, index) {
 }
 
 function addQuestion(obj, index) {
+    questionDiv.empty();
+    questionDiv.show();
     instructions.text("Answer the question before time runs out!");
     var newPara = $("<p>");
     newPara.text(obj[index].question);
@@ -99,6 +115,12 @@ function checkAnswer(obj,index) {
         questionDiv.hide();
         buttonGroup.hide();
         rightAnswers++;
+        setTimeout(function() {
+            phaseCounter++;
+            addAnswers(yankeesQuestions,phaseCounter);
+            addQuestion(yankeesQuestions,phaseCounter);
+            run(yankeesQuestions,phaseCounter);
+        },3000);
     } else if ($(event.target).text()!==obj[index].correctAnswer) {
         stop();
         instructions.text("WRONG! The answer was " + obj[index].correctAnswer + ".");
@@ -106,6 +128,13 @@ function checkAnswer(obj,index) {
         questionDiv.hide();
         buttonGroup.hide();
         wrongAnswers++;
+        
+        setTimeout(function() {
+            phaseCounter++;
+            addAnswers(yankeesQuestions,phaseCounter);
+            addQuestion(yankeesQuestions,phaseCounter);
+            run(yankeesQuestions,phaseCounter);
+        },3000);
     } 
 }
 
@@ -115,14 +144,14 @@ buttonGroup.hide();
 startOverButton.hide();
 
 $(".btn").on("click", function(){
-    if (phaseCounter===0) {
+    if (phaseCounter===-1) {
         startButtonGroup.hide();
         addAnswers(yankeesQuestions,0);
         addQuestion(yankeesQuestions,0);
         run(yankeesQuestions,0);
         phaseCounter++;
-    } else if (phaseCounter>0) {
-    checkAnswer(yankeesQuestions,0);
+    } else if (phaseCounter>=0) {
+    checkAnswer(yankeesQuestions,phaseCounter);
     }
 });
   

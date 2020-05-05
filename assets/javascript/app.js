@@ -24,6 +24,7 @@ var yankeesQuestions = [
 ]
 
 function run() {
+    $("#time-div").html("<h2>30</h2>");
     clearInterval(intervalId);
     intervalId = setInterval(decrement, 1000);
 }
@@ -34,7 +35,7 @@ function decrement() {
     //  Decrease number by one.
     number--;
 
-    //  Show the number in the #show-number tag.
+    //  Show the number in the #time-div tag.
     $("#time-div").html("<h2>" + number + "</h2>");
 
 
@@ -58,30 +59,35 @@ function stop() {
     clearInterval(intervalId);
 }
 
-function addAnswers(obj) {
-    buttonOne.text(obj[0].answers[0]);
-    buttonTwo.text(obj[0].answers[1]);
-    buttonThree.text(obj[0].answers[2]);
-    buttonFour.text(obj[0].answers[3]);
+function addAnswers(obj, index) {
+    buttonOne.text(obj[index].answers[0]);
+    buttonTwo.text(obj[index].answers[1]);
+    buttonThree.text(obj[index].answers[2]);
+    buttonFour.text(obj[index].answers[3]);
     
 }
 
-function addQuestion(obj) {
+function addQuestion(obj, index) {
 var newPara = $("<p>");
-newPara.text(obj[0].question);
+newPara.text(obj[index].question);
 questionDiv.append(newPara);
 }
 
-addAnswers(yankeesQuestions);
-addQuestion(yankeesQuestions);
+function checkAnswer(obj,index) {
+    if ($(event.target).text()===obj[index].correctAnswer) {
+        instructions.text("CORRECT!");
+        stop();
+    } else if ($(event.target).text()!==obj[index].correctAnswer) {
+        instructions.text("WRONG!");
+        stop();
+    } 
+}
+
+addAnswers(yankeesQuestions,0);
+addQuestion(yankeesQuestions,0);
 run();
 
 $(".btn").on("click", function(){
-    if ($(event.target).text()===yankeesQuestions[0].correctAnswer) {
-        
-        instructions.text("CORRECT!");
-    } else if ($(event.target).text()!==yankeesQuestions[0].correctAnswer) {
-        instructions.text("WRONG!");
-    }
+    checkAnswer(yankeesQuestions,0);
 });
   

@@ -2,6 +2,11 @@
 // sets clock time
 var number = 30;
 
+var rightAnswers = 0;
+var wrongAnswers = 0;
+var timedOutAnswers = 0;
+var phaseCounter = 0;
+
 //  Variable that will hold our interval ID when we execute the "run" function
 var intervalId;
 
@@ -12,6 +17,9 @@ var buttonOne = $("#button-1");
 var buttonTwo = $("#button-2");
 var buttonThree = $("#button-3");
 var buttonFour = $("#button-4");
+var startButton = $("#start-button");
+var startOverButton = $("#start-over-button");
+var startButtonGroup = $(".btn-group");
 var answerImg = $("#answer-img");
 
 var answersArr = ["Jim Abbott","Jimmy Key","Sterling Hitchcock","Scott Kamieniecki"]
@@ -54,6 +62,7 @@ function decrement(obj,index) {
     answerImg.append($("<img>",{src: obj[index].image}));
     questionDiv.hide();
     buttonGroup.hide();
+    timedOutAnswers++;
     }
 }
 
@@ -67,6 +76,7 @@ function stop() {
 }
 
 function addAnswers(obj, index) {
+    buttonGroup.show();
     buttonOne.text(obj[index].answers[0]);
     buttonTwo.text(obj[index].answers[1]);
     buttonThree.text(obj[index].answers[2]);
@@ -75,6 +85,7 @@ function addAnswers(obj, index) {
 }
 
 function addQuestion(obj, index) {
+    instructions.text("Answer the question before time runs out!");
     var newPara = $("<p>");
     newPara.text(obj[index].question);
     questionDiv.append(newPara);
@@ -87,22 +98,31 @@ function checkAnswer(obj,index) {
         answerImg.append($("<img>",{src: obj[index].image}));
         questionDiv.hide();
         buttonGroup.hide();
+        rightAnswers++;
     } else if ($(event.target).text()!==obj[index].correctAnswer) {
         stop();
         instructions.text("WRONG! The answer was " + obj[index].correctAnswer + ".");
         answerImg.append($("<img>",{src: obj[index].image}));
         questionDiv.hide();
         buttonGroup.hide();
+        wrongAnswers++;
     } 
 }
 
-addAnswers(yankeesQuestions,0);
-addQuestion(yankeesQuestions,0);
-run(yankeesQuestions,0);
 
 
+buttonGroup.hide();
+startOverButton.hide();
 
 $(".btn").on("click", function(){
+    if (phaseCounter===0) {
+        startButtonGroup.hide();
+        addAnswers(yankeesQuestions,0);
+        addQuestion(yankeesQuestions,0);
+        run(yankeesQuestions,0);
+        phaseCounter++;
+    } else if (phaseCounter>0) {
     checkAnswer(yankeesQuestions,0);
+    }
 });
   

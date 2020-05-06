@@ -46,6 +46,12 @@ var yankeesQuestions = [
         answers: ["Babe Ruth","Derek Jeter","Mickey Mantle","Bernie Williams"],
         correctAnswer: "Derek Jeter",
         image: "assets/images/derek_jeter.jpg"
+    },
+    {
+        question: "Before taking the name 'Yankees' in 1913, what was the NY baseball organization called?",
+        answers: ["White Stockings","Highlanders","Athletics","Bees"],
+        correctAnswer: "Highlanders",
+        image: "assets/images/highlanders.jpg"
     }
 
 ]

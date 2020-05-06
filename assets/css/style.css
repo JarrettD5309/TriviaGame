@@ -11,7 +11,7 @@ p {
 }
 
 .img-fluid {
-    max-height: 200px;
+    max-height: 190px;
 }
 
 .display-4 {
@@ -23,7 +23,7 @@ p {
 }
 
 .jumbotron {
-    min-height: 450px;
+    min-height: 430px;
 }
 
 /* Smaller devices (mobile, 400px and up) */
@@ -31,7 +31,7 @@ p {
     p {
         font-size: 1rem;
     }
-    
+
     .display-4 {
         font-size: 1.7rem;
     }

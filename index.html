@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url('assets/images/pinstripes.png');
+        }
+        .img-fluid {
+            max-height: 250px;
+        }
+
+        .display-4 {
+            font-size: 2.8rem;
+        }
+
+        .jumbotron {
+            min-height: 500px;
+        }
+    </style>
 
     <title>Yankees Trivia</title>
 
@@ -11,17 +27,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="jumbotron mt-3">
-            <h1 class="display-4 text-center">New York Yankees Trivia</h1>
+    <div class="container text-center">
+        <div class="jumbotron mt-3 py-4 bg-white border">
+            <h1 class="display-4">New York Yankees Trivia</h1>
             <div id="time-div"></div>
             <p class="lead" id="instructions">Click START to test your NY Yankees knowledge.</p>
             <hr class="my-4">
             <div id="question-div"></div>
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" id="start-button">START</button>
-                <button type="button" class="btn btn-secondary" id="start-over-button">START OVER</button>
-            </div>
+            <button type="button" class="btn btn-secondary mb-3" id="start-button">START</button>
+            <button type="button" class="btn btn-secondary" id="start-over-button">START OVER</button>
             <div class="btn-group-vertical" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary" id="button-1"></button>
                 <button type="button" class="btn btn-secondary" id="button-2"></button>

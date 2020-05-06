@@ -76,7 +76,7 @@ function decrement(obj,index) {
     //  Alert the user that time is up.
     instructions.text("TIME'S UP! The answer was " + obj[index].correctAnswer + ".");
     answerImg.show();
-    answerImg.append($("<img>",{src: obj[index].image}));
+    answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
     questionDiv.hide();
     buttonGroup.hide();
     timedOutAnswers++;
@@ -119,7 +119,7 @@ function checkAnswer(obj,index) {
         stop();
         instructions.text("CORRECT! The answer was " + obj[index].correctAnswer + ".");
         answerImg.show();
-        answerImg.append($("<img>",{src: obj[index].image}));
+        answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
         questionDiv.hide();
         buttonGroup.hide();
         rightAnswers++;
@@ -130,12 +130,10 @@ function checkAnswer(obj,index) {
         stop();
         instructions.text("WRONG! The answer was " + obj[index].correctAnswer + ".");
         answerImg.show();
-        answerImg.append($("<img>",{src: obj[index].image}));
+        answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
         questionDiv.hide();
         buttonGroup.hide();
         wrongAnswers++;
-        console.log(phaseCounter);
-        
         timeoutID = setTimeout(function() {
             timeoutScreen(yankeesQuestions)
         },3000);
@@ -150,7 +148,6 @@ function timeoutScreen(obj) {
         instructions.text("Game Over!");
         questionDiv.html("<p>correct answers: " + rightAnswers + "<br>wrong answers: " + wrongAnswers + "<br>unanswered: " + timedOutAnswers + "</p>");
         startButton.hide();
-        startButtonGroup.show();
         startOverButton.show();
         
     } else {
@@ -163,10 +160,12 @@ function timeoutScreen(obj) {
 
 buttonGroup.hide();
 startOverButton.hide();
+answerImg.append($("<img>",{class: "img-fluid rounded", src: "assets/images/yankee_hat_bat.png"}));
 
 $(".btn").on("click", function(){
     if (phaseCounter===-1) {
-        startButtonGroup.hide();
+        startOverButton.hide();
+        startButton.hide();
         addAnswers(yankeesQuestions,0);
         addQuestion(yankeesQuestions,0);
         run(yankeesQuestions,0);
@@ -182,7 +181,7 @@ startOverButton.on("click", function(){
     wrongAnswers = 0;
     timedOutAnswers = 0;
     phaseCounter = 0;
-    startButtonGroup.hide();
+    startOverButton.hide();
     addAnswers(yankeesQuestions,0);
     addQuestion(yankeesQuestions,0);
     run(yankeesQuestions,0);

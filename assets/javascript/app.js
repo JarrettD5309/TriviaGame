@@ -1,6 +1,6 @@
 
 //clock time variable
-var number = 30;
+var number = 15;
 
 // answer vars and var to keep track of phase
 var rightAnswers = 0;
@@ -52,8 +52,8 @@ var yankeesQuestions = [
 
 // runs the timer
 function run(obj,index) {
-    number=30;
-    $("#time-div").html("<h2>30</h2>");
+    number=15;
+    $("#time-div").html("<h2>15</h2>");
     clearInterval(intervalId);
     intervalId = setInterval(function() {
         decrement(obj,index);

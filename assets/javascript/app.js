@@ -1,7 +1,8 @@
 
-// sets clock time
+//clock time variable
 var number = 30;
 
+// answer vars and var to keep track of phase
 var rightAnswers = 0;
 var wrongAnswers = 0;
 var timedOutAnswers = 0;
@@ -10,8 +11,10 @@ var phaseCounter = -1;
 //  Variable that will hold our interval ID when we execute the "run" function
 var intervalId;
 
+// enables ability to clear timeout to fix reset issue
 var timeoutID;
 
+// jQuery tag variables
 var instructions = $("#instructions");
 var questionDiv = $("#question-div");
 var buttonGroup = $(".btn-group-vertical");
@@ -24,8 +27,7 @@ var startOverButton = $("#start-over-button");
 var startButtonGroup = $(".btn-group");
 var answerImg = $("#answer-img");
 
-var answersArr = ["Jim Abbott","Jimmy Key","Sterling Hitchcock","Scott Kamieniecki"]
-
+// Main object
 var yankeesQuestions = [
     {
         question: "Which one-handed Yankees pitcher threw a no-hitter in 1993?",
@@ -48,6 +50,7 @@ var yankeesQuestions = [
 
 ]
 
+// runs the timer
 function run(obj,index) {
     number=30;
     $("#time-div").html("<h2>30</h2>");
@@ -59,42 +62,34 @@ function run(obj,index) {
 
 //  The decrement function.
 function decrement(obj,index) {
-
-    //  Decrease number by one.
     number--;
-
-    //  Show the number in the #time-div tag.
     $("#time-div").html("<h2>" + number + "</h2>");
-
-
-    //  Once number hits zero...
     if (number === 0) {
-
-    //  ...run the stop function.
-    stop();
-
-    //  Alert the user that time is up.
-    instructions.text("TIME'S UP! The answer was " + obj[index].correctAnswer + ".");
-    answerImg.show();
-    answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
-    questionDiv.hide();
-    buttonGroup.hide();
-    timedOutAnswers++;
-    timeoutID = setTimeout(function() {
-        timeoutScreen(yankeesQuestions)
-    },3000);
+        instructions.text("TIME'S UP! The answer was " + obj[index].correctAnswer + ".");
+        timedOutAnswers++;
+        answerScreen(obj,index);
     }
 }
 
 //  The stop function
 function stop() {
-
-    //  Clears our intervalId
-    //  We just pass the name of the interval
-    //  to the clearInterval function.
     clearInterval(intervalId);
 }
 
+// universally code for answer/timeout screen regardless if correct,incorrect or timed out
+function answerScreen(obj, index) {
+    stop();
+    answerImg.show();
+    answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
+    questionDiv.hide();
+    buttonGroup.hide();
+    timeoutID = setTimeout(function() {
+        timeoutScreen(obj);
+    },3000);
+
+}
+
+// Adds new answers to the html buttons
 function addAnswers(obj, index) {
     buttonGroup.show();
     answerImg.empty();
@@ -105,6 +100,7 @@ function addAnswers(obj, index) {
     
 }
 
+// Adds the questions to the html
 function addQuestion(obj, index) {
     questionDiv.empty();
     questionDiv.show();
@@ -114,32 +110,20 @@ function addQuestion(obj, index) {
     questionDiv.append(newPara);
 }
 
+// Checks if the button clicked was right or wrong
 function checkAnswer(obj,index) {
     if ($(event.target).text()===obj[index].correctAnswer) {
-        stop();
         instructions.text("CORRECT! The answer was " + obj[index].correctAnswer + ".");
-        answerImg.show();
-        answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
-        questionDiv.hide();
-        buttonGroup.hide();
         rightAnswers++;
-        timeoutID = setTimeout(function() {
-            timeoutScreen(yankeesQuestions)
-        },3000);
+        answerScreen(obj,index);
     } else if ($(event.target).text()!==obj[index].correctAnswer) {
-        stop();
         instructions.text("WRONG! The answer was " + obj[index].correctAnswer + ".");
-        answerImg.show();
-        answerImg.append($("<img>",{class: "img-fluid rounded", src: obj[index].image}));
-        questionDiv.hide();
-        buttonGroup.hide();
         wrongAnswers++;
-        timeoutID = setTimeout(function() {
-            timeoutScreen(yankeesQuestions)
-        },3000);
+        answerScreen(obj,index);
     } 
 }
 
+// Checks if it is the end game step or if new question should be posted
 function timeoutScreen(obj) {
     if(phaseCounter===obj.length-1) {
         answerImg.hide();
@@ -158,10 +142,15 @@ function timeoutScreen(obj) {
     }
 }
 
+
+// Game play section
+
+// Start screen setup
 buttonGroup.hide();
 startOverButton.hide();
 answerImg.append($("<img>",{class: "img-fluid rounded", src: "assets/images/yankee_hat_bat.png"}));
 
+// On click to check if START button or game play
 $(".btn").on("click", function(){
     if (phaseCounter===-1) {
         startOverButton.hide();
@@ -175,6 +164,7 @@ $(".btn").on("click", function(){
     }
 });
 
+// on click to reset game
 startOverButton.on("click", function(){
     clearTimeout(timeoutID);
     rightAnswers = 0;

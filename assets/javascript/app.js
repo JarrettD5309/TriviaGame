@@ -10,6 +10,8 @@ var phaseCounter = -1;
 //  Variable that will hold our interval ID when we execute the "run" function
 var intervalId;
 
+var timeoutID;
+
 var instructions = $("#instructions");
 var questionDiv = $("#question-div");
 var buttonGroup = $(".btn-group-vertical");
@@ -36,7 +38,14 @@ var yankeesQuestions = [
         answers: ["30","16","27","32"],
         correctAnswer: "27",
         image: "assets/images/27_champs.jpg"
+    },
+    {
+        question: "Which player holds the record for career hits as a Yankee?",
+        answers: ["Babe Ruth","Derek Jeter","Mickey Mantle","Bernie Williams"],
+        correctAnswer: "Derek Jeter",
+        image: "assets/images/derek_jeter.jpg"
     }
+
 ]
 
 function run(obj,index) {
@@ -66,15 +75,13 @@ function decrement(obj,index) {
 
     //  Alert the user that time is up.
     instructions.text("TIME'S UP! The answer was " + obj[index].correctAnswer + ".");
+    answerImg.show();
     answerImg.append($("<img>",{src: obj[index].image}));
     questionDiv.hide();
     buttonGroup.hide();
     timedOutAnswers++;
-    setTimeout(function() {
-        phaseCounter++;
-        addAnswers(yankeesQuestions,phaseCounter);
-        addQuestion(yankeesQuestions,phaseCounter);
-        run(yankeesQuestions,phaseCounter);
+    timeoutID = setTimeout(function() {
+        timeoutScreen(yankeesQuestions)
     },3000);
     }
 }
@@ -111,34 +118,48 @@ function checkAnswer(obj,index) {
     if ($(event.target).text()===obj[index].correctAnswer) {
         stop();
         instructions.text("CORRECT! The answer was " + obj[index].correctAnswer + ".");
+        answerImg.show();
         answerImg.append($("<img>",{src: obj[index].image}));
         questionDiv.hide();
         buttonGroup.hide();
         rightAnswers++;
-        setTimeout(function() {
-            phaseCounter++;
-            addAnswers(yankeesQuestions,phaseCounter);
-            addQuestion(yankeesQuestions,phaseCounter);
-            run(yankeesQuestions,phaseCounter);
+        timeoutID = setTimeout(function() {
+            timeoutScreen(yankeesQuestions)
         },3000);
     } else if ($(event.target).text()!==obj[index].correctAnswer) {
         stop();
         instructions.text("WRONG! The answer was " + obj[index].correctAnswer + ".");
+        answerImg.show();
         answerImg.append($("<img>",{src: obj[index].image}));
         questionDiv.hide();
         buttonGroup.hide();
         wrongAnswers++;
+        console.log(phaseCounter);
         
-        setTimeout(function() {
-            phaseCounter++;
-            addAnswers(yankeesQuestions,phaseCounter);
-            addQuestion(yankeesQuestions,phaseCounter);
-            run(yankeesQuestions,phaseCounter);
+        timeoutID = setTimeout(function() {
+            timeoutScreen(yankeesQuestions)
         },3000);
     } 
 }
 
-
+function timeoutScreen(obj) {
+    if(phaseCounter===obj.length-1) {
+        answerImg.hide();
+        questionDiv.empty();
+        questionDiv.show();
+        instructions.text("Game Over!");
+        questionDiv.html("<p>correct answers: " + rightAnswers + "<br>wrong answers: " + wrongAnswers + "<br>unanswered: " + timedOutAnswers + "</p>");
+        startButton.hide();
+        startButtonGroup.show();
+        startOverButton.show();
+        
+    } else {
+        phaseCounter++;
+        addAnswers(obj,phaseCounter);
+        addQuestion(obj,phaseCounter);
+        run(obj,phaseCounter);
+    }
+}
 
 buttonGroup.hide();
 startOverButton.hide();
@@ -150,8 +171,20 @@ $(".btn").on("click", function(){
         addQuestion(yankeesQuestions,0);
         run(yankeesQuestions,0);
         phaseCounter++;
-    } else if (phaseCounter>=0) {
+    }  else if (phaseCounter>=0) {
     checkAnswer(yankeesQuestions,phaseCounter);
     }
+});
+
+startOverButton.on("click", function(){
+    clearTimeout(timeoutID);
+    rightAnswers = 0;
+    wrongAnswers = 0;
+    timedOutAnswers = 0;
+    phaseCounter = 0;
+    startButtonGroup.hide();
+    addAnswers(yankeesQuestions,0);
+    addQuestion(yankeesQuestions,0);
+    run(yankeesQuestions,0);
 });
   

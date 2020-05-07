@@ -52,6 +52,30 @@ var yankeesQuestions = [
         answers: ["White Stockings","Highlanders","Athletics","Bees"],
         correctAnswer: "Highlanders",
         image: "assets/images/highlanders.jpg"
+    },
+    {
+        question: "Which Yankee team had the most wins in a season?",
+        answers: ["1978","1961","1927","1998"],
+        correctAnswer: "1998",
+        image: "assets/images/1998_yankees.jpg"
+    },
+    {
+        question: "Which player hit the first home at the original Yankee Stadium?",
+        answers: ["Babe Ruth","Lou Gehrig","Wally Pip","Bob Meusel"],
+        correctAnswer: "Babe Ruth",
+        image: "assets/images/babe_ruth.jpg"
+    },
+    {
+        question: "Which pitcher holds the record for career wins as a Yankee?",
+        answers: ["Andy Pettitte","Lefty Gomez","Mel Stottlemyre","Whitey Ford"],
+        correctAnswer: "Whitey Ford",
+        image: "assets/images/whitey_ford.jpg"
+    },
+    {
+        question: "Which Yankee pitcher did NOT throw a perfect game?",
+        answers: ["David Cone","Dave Righetti","Don Larsen","David Wells"],
+        correctAnswer: "Dave Righetti",
+        image: "assets/images/perfect_game_balls.jpg"
     }
 
 ]
@@ -82,7 +106,7 @@ function stop() {
     clearInterval(intervalId);
 }
 
-// universally code for answer/timeout screen regardless if correct,incorrect or timed out
+// universal code for answer/timeout screen regardless if correct,incorrect or timed out
 function answerScreen(obj, index) {
     stop();
     answerImg.show();
@@ -91,7 +115,7 @@ function answerScreen(obj, index) {
     buttonGroup.hide();
     timeoutID = setTimeout(function() {
         timeoutScreen(obj);
-    },3000);
+    },2500);
 
 }
 

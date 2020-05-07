@@ -76,6 +76,18 @@ var yankeesQuestions = [
         answers: ["David Cone","Dave Righetti","Don Larsen","David Wells"],
         correctAnswer: "Dave Righetti",
         image: "assets/images/perfect_game_balls.jpg"
+    },
+    {
+        question: "Yankee Joe DiMaggio holds the hitting streak record. How many consecutive games was it?",
+        answers: ["45","51","56","49"],
+        correctAnswer: "56",
+        image: "assets/images/joe_dimaggio.jpg"
+    },
+    {
+        question: "Who was the first African-American player on a Yankees roster?",
+        answers: ["Elston Howard","Roy White","Al Downing","Horace Clark"],
+        correctAnswer: "Elston Howard",
+        image: "assets/images/elston_howard.jpg"
     }
 
 ]
